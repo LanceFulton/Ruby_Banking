@@ -7,15 +7,15 @@
 
 Bank = Class.new do
 	attr_accessor :accounts
+	attr_accessor :bankname
 	def initialize(bankname)
 		@bankname = bankname
 		@accounts = {}
 		puts "#{@bankname} bank was just created."
 	end
 	def open_account(customer)
-		@customer = customer
 		@accounts[customer.name] = 0
-		puts "#{@customer.name}, thanks for opening an account at #{@bankname}!"
+		puts "#{customer.name}, thanks for opening an account at #{@bankname}!"
 	end
 	def deposit (customer, amount)
 		@accounts[customer.name] += amount
@@ -26,6 +26,11 @@ Bank = Class.new do
 		@accounts[customer.name] -= amount
 		customer.cash += amount
 		puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+	end
+	def transfer (customer, receiver, amount)
+		@accounts[customer.name] -= amount
+		receiver.accounts[customer.name] += amount
+		puts "#{customer.name} transfered $#{amount} from the #{@bankname} account to the #{receiver.bankname} account. The #{@bankname} account has $#{@accounts[customer.name]} and the #{receiver.bankname} account has $#{receiver.accounts[customer.name]}."
 	end
 end
 
