@@ -18,14 +18,22 @@ Bank = Class.new do
 		puts "#{customer.name}, thanks for opening an account at #{@bankname}!"
 	end
 	def deposit (customer, amount)
-		@accounts[customer.name] += amount
-		customer.cash -= amount
-		puts "#{customer.name} deposited $#{amount} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+		if amount <= customer.cash
+			@accounts[customer.name] += amount
+			customer.cash -= amount
+			puts "#{customer.name} deposited $#{amount} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+		else
+			puts "#{customer.name} does not have enough cash to deposit $#{amount}."
+		end
 	end
 	def withdraw (customer, amount)
-		@accounts[customer.name] -= amount
-		customer.cash += amount
-		puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+		if @accounts[customer.name] - amount > 0
+			@accounts[customer.name] -= amount
+			customer.cash += amount
+			puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+		else
+			puts "#{customer.name} does not have enough money in the account to withdraw $#{amount}."
+		end
 	end
 	def transfer (customer, receiver, amount)
 		@accounts[customer.name] -= amount
