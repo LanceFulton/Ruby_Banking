@@ -14,5 +14,5 @@ chase.withdraw(me, 50)
 chase.transfer(me, wells_fargo, 100)
 chase.deposit(me, 5000)
 chase.withdraw(me, 5000)
-#puts chase.total_cash_in_bank
-#puts wells_fargo.total_cash_in_bank
+puts chase.total_cash_in_bank
+puts wells_fargo.total_cash_in_bank

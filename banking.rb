@@ -6,7 +6,7 @@
 # Classes
 
 Bank = Class.new do
-	attr_accessor :accounts
+	attr_accessor :accounts #to see an account listing
 	attr_accessor :bankname
 	def initialize(bankname)
 		@bankname = bankname
@@ -39,6 +39,13 @@ Bank = Class.new do
 		@accounts[customer.name] -= amount
 		receiver.accounts[customer.name] += amount
 		puts "#{customer.name} transfered $#{amount} from the #{@bankname} account to the #{receiver.bankname} account. The #{@bankname} account has $#{@accounts[customer.name]} and the #{receiver.bankname} account has $#{receiver.accounts[customer.name]}."
+	end
+	def total_cash_in_bank
+		@banktotal = 0
+		@accounts.each do |customer, balance|
+			@banktotal += balance
+		end
+		print "#{@bankname} has $#{@banktotal} in the bank."
 	end
 end
 
