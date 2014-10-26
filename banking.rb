@@ -13,11 +13,13 @@ Bank = Class.new do
 	def open_account(customer)
 		@customer = customer
 		@customer_bal = 0
-		puts "#{@customer}, thanks for opening an account at #{@bankname}!"
+		puts "#{@customer.name}, thanks for opening an account at #{@bankname}!"
 	end
 end
 
 Person = Class.new do
+	attr_accessor :name
+	attr_accessor :cash
 	def initialize(name, cash)
 		@name = name
 		@cash = cash
