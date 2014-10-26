@@ -17,10 +17,15 @@ Bank = Class.new do
 		@accounts[customer.name] = 0
 		puts "#{@customer.name}, thanks for opening an account at #{@bankname}!"
 	end
-	def deposit (customer, deposit)
-		@accounts[customer.name] += deposit
-		customer.cash -= deposit
-		puts "#{customer.name} deposited $#{deposit} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+	def deposit (customer, amount)
+		@accounts[customer.name] += amount
+		customer.cash -= amount
+		puts "#{customer.name} deposited $#{amount} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+	end
+	def withdraw (customer, amount)
+		@accounts[customer.name] -= amount
+		customer.cash += amount
+		puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
 	end
 end
 
