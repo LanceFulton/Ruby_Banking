@@ -11,35 +11,36 @@ Bank = Class.new do #the Bank class
 	def initialize(bankname)
 		@bankname = bankname
 		@accounts = {}
-		#@cc_accounts = {}
+		@cc_limits = {}
+		@cc_balances = {}
 		puts "#{@bankname} bank was just created."
 	end
 	def open_account(customer)
-		@accounts[customer.name] = 0
+		@accounts[customer] = 0
 		puts "#{customer.name}, thanks for opening an account at #{@bankname}!"
 	end
 	def deposit (customer, amount)
 		if amount <= customer.cash
-			@accounts[customer.name] += amount
+			@accounts[customer] += amount
 			customer.cash -= amount
-			puts "#{customer.name} deposited $#{amount} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+			puts "#{customer.name} deposited $#{amount} to #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer].to_s + "."
 		else
 			puts "#{customer.name} does not have enough cash to deposit $#{amount}."
 		end
 	end
 	def withdraw (customer, amount)
-		if @accounts[customer.name] - amount > 0
-			@accounts[customer.name] -= amount
+		if @accounts[customer] - amount > 0
+			@accounts[customer] -= amount
 			customer.cash += amount
-			puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer.name].to_s + "."
+			puts "#{customer.name} withdrew $#{amount} from #{@bankname}. #{customer.name} has $#{customer.cash}. #{customer.name}'s account has $" + @accounts[customer].to_s + "."
 		else
 			puts "#{customer.name} does not have enough money in the account to withdraw $#{amount}."
 		end
 	end
 	def transfer (customer, receiver, amount)
-		@accounts[customer.name] -= amount
-		receiver.accounts[customer.name] += amount
-		puts "#{customer.name} transfered $#{amount} from the #{@bankname} account to the #{receiver.bankname} account. The #{@bankname} account has $#{@accounts[customer.name]} and the #{receiver.bankname} account has $#{receiver.accounts[customer.name]}."
+		@accounts[customer] -= amount
+		receiver.accounts[customer] += amount
+		puts "#{customer.name} transfered $#{amount} from the #{@bankname} account to the #{receiver.bankname} account. The #{@bankname} account has $#{@accounts[customer]} and the #{receiver.bankname} account has $#{receiver.accounts[customer]}."
 	end
 	def total_cash_in_bank
 		@banktotal = 0
@@ -48,8 +49,23 @@ Bank = Class.new do #the Bank class
 		end
 		print "#{@bankname} has $#{@banktotal} in the bank."
 	end
-	#def cc_open
-	#end
+	def cc_open (customer, limit)
+		@cc_limits[customer] = limit
+		@cc_balances[customer] = 0
+		puts "#{customer.name}, thanks for opening a credit card account with #{@bankname}. Your credit limit is $#{@cc_limits[customer]}."
+	end
+	def cc_statement (customer)
+		puts "#{customer.name}, your #{@bankname} credit card balance is $#{@cc_balances[customer]}. Your available credit is $#{@cc_limits[customer] - @cc_balances[customer]}."
+	end
+	def cc_spend (customer, amount)
+		@cc_balances[customer] += amount
+		print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
+		if (@cc_limits[customer] - @cc_balances[customer]) < 0
+			puts " You have overdrawn your account by $" + (@cc_limits[customer] - @cc_balances[customer]).to_s + "."
+		else
+			puts
+		end
+	end
 end
 
 Person = Class.new do
