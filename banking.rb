@@ -5,12 +5,13 @@
 
 # Classes
 
-Bank = Class.new do
-	attr_accessor :accounts #to see an account listing
-	attr_accessor :bankname
+Bank = Class.new do #the Bank class
+	attr_reader :accounts #to see an account listing by calling '.accounts'
+	attr_reader :bankname #for use when stating the receiving bank's name in a transfer message
 	def initialize(bankname)
 		@bankname = bankname
 		@accounts = {}
+		#@cc_accounts = {}
 		puts "#{@bankname} bank was just created."
 	end
 	def open_account(customer)
@@ -47,6 +48,8 @@ Bank = Class.new do
 		end
 		print "#{@bankname} has $#{@banktotal} in the bank."
 	end
+	#def cc_open
+	#end
 end
 
 Person = Class.new do
