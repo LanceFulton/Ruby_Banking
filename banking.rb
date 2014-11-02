@@ -14,6 +14,7 @@ Bank = Class.new do #the Bank class
 		@cc_limits = {}
 		@cc_balances = {}
 		@cc_holds = {}
+		@cc_rates = {}
 		puts "#{@bankname} bank was just created."
 	end
 	def open_account(customer)
@@ -50,9 +51,10 @@ Bank = Class.new do #the Bank class
 		end
 		print "#{@bankname} has $#{@banktotal} in the bank."
 	end
-	def cc_open (customer, limit)
+	def cc_open (customer, limit, rate)
 		@cc_limits[customer] = limit
 		@cc_balances[customer] = 0
+		@cc_rates[customer] = rate
 		@cc_holds[customer] = 0
 		puts "#{customer.name}, thanks for opening a credit card account with #{@bankname}. Your credit limit is $#{@cc_limits[customer]}."
 	end
@@ -65,7 +67,7 @@ Bank = Class.new do #the Bank class
 			print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
 			if (@cc_limits[customer] - @cc_balances[customer]) < 0
 				print " You have overdrawn your account by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
-				@cc_balances[customer] += ((@cc_balances[customer] - @cc_limits[customer]) * 0.10)
+				@cc_balances[customer] += (((@cc_balances[customer] - @cc_limits[customer]) * 0.10).to_i)
 				@cc_holds[customer] = 1
 				puts " Additionally, you have been charged an overdraft fee of 10% of the overdrawn amount, and a hold has been placed on your account."
 			else
@@ -82,6 +84,10 @@ Bank = Class.new do #the Bank class
 			@cc_holds[customer] = 0
 			puts " The hold on your account has been lifted."
 		end
+	end
+	def cc_calc_int (customer)
+		@cc_balances[customer] += ((@cc_balances[customer] * @cc_rates[customer]).to_i)
+		puts "#{customer.name}, a finance charge has accrued to your #{@bankname} credit card account. Your account balance is now $#{@cc_balances[customer]}."
 	end
 end
 

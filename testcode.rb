@@ -29,12 +29,17 @@ chase.withdraw(me, 5000)
 puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
 
-chase.cc_open(friend1, 3000)
+chase.cc_open(friend1, 3000, 0.08)
 chase.cc_use(friend1, 1000)
 chase.cc_statement(friend1)
+
 chase.cc_use(friend1, 3000)
 chase.cc_statement(friend1)
+
 chase.cc_use(friend1, 1000)
 chase.cc_payment(friend1, 2500)
 chase.cc_use(friend1, 1000)
+chase.cc_statement(friend1)
+
+chase.cc_calc_int(friend1)
 chase.cc_statement(friend1)
