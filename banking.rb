@@ -65,7 +65,7 @@ Bank = Class.new do
 		if @cc_holds[customer] == 0 #checks if there is a hold
 			@cc_balances[customer] += amount
 			print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
-			if (@cc_limits[customer] - @cc_balances[customer]) < 0 # checks for overdraft
+			if (@cc_limits[customer] - @cc_balances[customer]) < 0 # checks if over limit
 				print " You have exceeded your limit by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
 				@cc_balances[customer] += (((@cc_balances[customer] - @cc_limits[customer]) * 0.10).to_i)
 				@cc_holds[customer] = 1 #adds a hold
@@ -78,7 +78,7 @@ Bank = Class.new do
 		end
 	end
 	def cc_payment (customer, amount)
-		if amount <= customer.cash
+		if amount <= customer.cash #checks for sufficient cash
 			customer.cash -= amount
 			@cc_balances[customer] -= amount
 			print "#{customer.name}, thank you for your payment of $#{amount} to your #{@bankname} credit card account. Your balance is now $#{@cc_balances[customer]}."
