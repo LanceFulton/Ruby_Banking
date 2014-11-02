@@ -36,10 +36,10 @@ chase.cc_statement(friend1)
 chase.cc_use(friend1, 3000)
 chase.cc_statement(friend1)
 
-chase.cc_use(friend1, 1000)
+chase.cc_use(friend1, 500)
 chase.cc_payment(friend1, 2500)
-chase.cc_use(friend1, 1000)
+chase.cc_use(friend1, 500)
 chase.cc_statement(friend1)
 
-chase.cc_calc_int(friend1)
+chase.cc_calc_int(friend1, 2)
 chase.cc_statement(friend1)

@@ -85,9 +85,11 @@ Bank = Class.new do
 			puts " The hold on your account has been lifted."
 		end
 	end
-	def cc_calc_int (customer)
-		@cc_balances[customer] += ((@cc_balances[customer] * @cc_rates[customer]).to_i)
-		puts "#{customer.name}, a finance charge has accrued to your #{@bankname} credit card account. Your account balance is now $#{@cc_balances[customer]}."
+	def cc_calc_int (customer, months)
+		for i in 1..months do
+			@cc_balances[customer] += ((@cc_balances[customer] * @cc_rates[customer]).to_i)
+			puts "#{customer.name}, a finance charge has accrued to your #{@bankname} credit card account. Your account balance is now $#{@cc_balances[customer]}."
+		end
 	end
 end
 
