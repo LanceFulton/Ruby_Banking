@@ -13,6 +13,7 @@ Bank = Class.new do #the Bank class
 		@accounts = {}
 		@cc_limits = {}
 		@cc_balances = {}
+		@cc_holds = {}
 		puts "#{@bankname} bank was just created."
 	end
 	def open_account(customer)
@@ -52,20 +53,34 @@ Bank = Class.new do #the Bank class
 	def cc_open (customer, limit)
 		@cc_limits[customer] = limit
 		@cc_balances[customer] = 0
+		@cc_holds[customer] = 0
 		puts "#{customer.name}, thanks for opening a credit card account with #{@bankname}. Your credit limit is $#{@cc_limits[customer]}."
 	end
 	def cc_statement (customer)
 		puts "#{customer.name}, your #{@bankname} credit card balance is $#{@cc_balances[customer]}. Your available credit is $#{@cc_limits[customer] - @cc_balances[customer]}."
 	end
-	def cc_spend (customer, amount)
-		@cc_balances[customer] += amount
-		print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
-		if (@cc_limits[customer] - @cc_balances[customer]) < 0
-			print " You have overdrawn your account by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
-			@cc_balances[customer] += ((@cc_balances[customer] - @cc_limits[customer]) * 0.10)
-			puts " Additionally, you have been charged an overdraft fee of 10% of the overdrawn amount, and a hold has been placed on your account."
+	def cc_use (customer, amount)
+		if @cc_holds[customer] == 0
+			@cc_balances[customer] += amount
+			print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
+			if (@cc_limits[customer] - @cc_balances[customer]) < 0
+				print " You have overdrawn your account by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
+				@cc_balances[customer] += ((@cc_balances[customer] - @cc_limits[customer]) * 0.10)
+				@cc_holds[customer] = 1
+				puts " Additionally, you have been charged an overdraft fee of 10% of the overdrawn amount, and a hold has been placed on your account."
+			else
+				puts
+			end
 		else
-			puts
+			puts "#{customer.name}, there is currently a hold on your #{@bankname} credit card account. Please make a payment to bring your credit card balance to within your limit of $#{@cc_limits[customer]}, so that the hold may be lifted."
+		end
+	end
+	def cc_payment (customer, amount)
+		@cc_balances[customer] -= amount
+		print "#{customer.name}, thank you for your payment of $#{amount} to your #{@bankname} credit card account. Your balance is now $#{@cc_balances[customer]}."
+		if (@cc_limits[customer] - @cc_balances[customer]) >= 0
+			@cc_holds[customer] = 0
+			puts " The hold on your account has been lifted."
 		end
 	end
 end
