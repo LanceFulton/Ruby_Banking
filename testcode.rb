@@ -30,7 +30,6 @@ puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
 
 chase.cc_open(friend1, 3000)
-chase.cc_statement(friend1)
 chase.cc_spend(friend1, 1000)
 chase.cc_statement(friend1)
 chase.cc_spend(friend1, 3000)

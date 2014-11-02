@@ -61,7 +61,9 @@ Bank = Class.new do #the Bank class
 		@cc_balances[customer] += amount
 		print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
 		if (@cc_limits[customer] - @cc_balances[customer]) < 0
-			puts " You have overdrawn your account by $" + (@cc_limits[customer] - @cc_balances[customer]).to_s + "."
+			print " You have overdrawn your account by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
+			@cc_balances[customer] += ((@cc_balances[customer] - @cc_limits[customer]) * 0.10)
+			puts " Additionally, you have been charged an overdraft fee of 10% of the overdrawn amount, and a hold has been placed on your account."
 		else
 			puts
 		end
