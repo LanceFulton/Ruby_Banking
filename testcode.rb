@@ -29,6 +29,8 @@ chase.withdraw(me, 5000)
 puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
 puts
+friend1.payday(3000) #so Hiro has cash for cc payments
+puts
 chase.cc_open(friend1, 3000, 0.08) #open a cc account
 chase.cc_use(friend1, 1000) #use cc to make a purchase
 chase.cc_statement(friend1) #get cc statement
@@ -40,6 +42,9 @@ chase.cc_use(friend1, 3000) #first purchase to exceed limit
 chase.cc_statement(friend1)
 puts
 chase.cc_use(friend1, 500) #attempt to further exceed limit
+puts
+chase.cc_payment(friend1, 4000) #payment that exceeds cash
+puts
 chase.cc_payment(friend1, 2500) #payment to bring balance under limit
 chase.cc_use(friend1, 500) #successful purchase
 chase.cc_statement(friend1)

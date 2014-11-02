@@ -78,13 +78,18 @@ Bank = Class.new do
 		end
 	end
 	def cc_payment (customer, amount)
-		@cc_balances[customer] -= amount
-		print "#{customer.name}, thank you for your payment of $#{amount} to your #{@bankname} credit card account. Your balance is now $#{@cc_balances[customer]}."
-		if (@cc_holds[customer] == 1) && (@cc_limits[customer] - @cc_balances[customer]) >= 0 #checks for hold and if balance is below limit
-			@cc_holds[customer] = 0 #clears the hold
-			puts " The hold on your account has been lifted."
+		if amount <= customer.cash
+			customer.cash -= amount
+			@cc_balances[customer] -= amount
+			print "#{customer.name}, thank you for your payment of $#{amount} to your #{@bankname} credit card account. Your balance is now $#{@cc_balances[customer]}."
+			if (@cc_holds[customer] == 1) && (@cc_limits[customer] - @cc_balances[customer]) >= 0 #checks for hold and if balance is below limit
+				@cc_holds[customer] = 0 #clears the hold
+				puts " The hold on your account has been lifted."
+			else
+				puts #to return after initial message when no second sentence
+			end
 		else
-			puts #to return after initial message when no second sentence
+			puts "#{customer.name}, you don't have enough cash to make a payment of $#{amount}."
 		end
 	end
 	def cc_calc_int (customer, months)
@@ -102,5 +107,9 @@ Person = Class.new do
 		@name = name
 		@cash = cash
 		puts "Hi, #{@name}. You have $#{@cash}!"
+	end
+	def payday(amount) #increases cash for cc payments
+		@cash += amount
+		puts "#{@name} has cashed his paycheck of $#{amount}."
 	end
 end
