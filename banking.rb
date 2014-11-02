@@ -66,23 +66,25 @@ Bank = Class.new do
 			@cc_balances[customer] += amount
 			print "#{customer.name}, you charged $#{amount} to your #{bankname} credit card."
 			if (@cc_limits[customer] - @cc_balances[customer]) < 0 # checks for overdraft
-				print " You have overdrawn your account by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
+				print " You have exceeded your limit by $" + (@cc_balances[customer] - @cc_limits[customer]).to_s + "."
 				@cc_balances[customer] += (((@cc_balances[customer] - @cc_limits[customer]) * 0.10).to_i)
 				@cc_holds[customer] = 1 #adds a hold
-				puts " Additionally, you have been charged an overdraft fee of 10% of the overdrawn amount, and a hold has been placed on your account."
+				puts " Additionally, you have been charged a fee of 10% of the amount over limit, and a hold has been placed on your account."
 			else
 				puts #to return after initial message when no second sentence
 			end
 		else
-			puts "#{customer.name}, there is currently a hold on your #{@bankname} credit card account. Please make a payment to bring your credit card balance to within your limit of $#{@cc_limits[customer]}, so that the hold may be lifted."
+			puts "#{customer.name}, there is currently a hold on your #{@bankname} credit card account. Please make a payment to bring your credit card balance to within your limit of $#{@cc_limits[customer]}, so that the hold may be lifted and you may make a purchase."
 		end
 	end
 	def cc_payment (customer, amount)
 		@cc_balances[customer] -= amount
 		print "#{customer.name}, thank you for your payment of $#{amount} to your #{@bankname} credit card account. Your balance is now $#{@cc_balances[customer]}."
-		if (@cc_limits[customer] - @cc_balances[customer]) >= 0 #checks if balance is below limit
+		if (@cc_holds[customer] == 1) && (@cc_limits[customer] - @cc_balances[customer]) >= 0 #checks for hold and if balance is below limit
 			@cc_holds[customer] = 0 #clears the hold
 			puts " The hold on your account has been lifted."
+		else
+			puts #to return after initial message when no second sentence
 		end
 	end
 	def cc_calc_int (customer, months)

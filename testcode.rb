@@ -28,18 +28,21 @@ chase.withdraw(me, 5000)
 
 puts chase.total_cash_in_bank
 puts wells_fargo.total_cash_in_bank
-
-chase.cc_open(friend1, 3000, 0.08)
-chase.cc_use(friend1, 1000)
+puts
+chase.cc_open(friend1, 3000, 0.08) #open a cc account
+chase.cc_use(friend1, 1000) #use cc to make a purchase
+chase.cc_statement(friend1) #get cc statement
+puts
+chase.cc_payment(friend1, 400) #normal payment
 chase.cc_statement(friend1)
-
-chase.cc_use(friend1, 3000)
+puts
+chase.cc_use(friend1, 3000) #first purchase to exceed limit
 chase.cc_statement(friend1)
-
-chase.cc_use(friend1, 500)
-chase.cc_payment(friend1, 2500)
-chase.cc_use(friend1, 500)
+puts
+chase.cc_use(friend1, 500) #attempt to further exceed limit
+chase.cc_payment(friend1, 2500) #payment to bring balance under limit
+chase.cc_use(friend1, 500) #successful purchase
 chase.cc_statement(friend1)
-
-chase.cc_calc_int(friend1, 2)
+puts
+chase.cc_calc_int(friend1, 2) #2 months of interest
 chase.cc_statement(friend1)
